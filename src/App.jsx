@@ -31,16 +31,16 @@ const DESTINATIONS = [
 const CARDS = [
   { id:"uob_ladies",   name:"UOB Lady's Card",             bank:"UOB",      mine:true,  bestMpd:4,   bestCat:"2 chosen categories",          localMpd:0.4, fxMpd:0.4,  fee:"S$194", feeWaive:true,  kfRatio:"1 UNI$ = 2 miles",        cap:"S$1,000/mth per category",        partners:"KrisFlyer, Asia Miles",                 perk:"Pick any 2 bonus categories per quarter",                  tag:"4mpd"    },
   { id:"uob_ppv",      name:"UOB Preferred Platinum Visa", bank:"UOB",      mine:true,  bestMpd:4,   bestCat:"Online & mobile contactless",   localMpd:0.4, fxMpd:0.4,  fee:"S$194", feeWaive:true,  kfRatio:"1 UNI$ = 2 miles",        cap:"S$600/mth mobile + S$600 online", partners:"KrisFlyer, Asia Miles",                 perk:"4 mpd just by tapping your phone to pay",                  tag:"4mpd"    },
-  { id:"citi_prestige",name:"Citi Prestige",               bank:"Citibank", mine:true,  bestMpd:2,   bestCat:"FCY / overseas",                localMpd:1.3, fxMpd:2.0,  fee:"S$652", feeWaive:false, kfRatio:"2.5 TYP = 1 mile",        cap:"Uncapped",                        partners:"11 programmes \u2013 all 3 alliances + IHG", perk:"80,000 TYP (32,000 miles) on annual fee payment",          tag:"premium" },
-  { id:"citi_rewards", name:"Citi Rewards",                bank:"Citibank", mine:true,  bestMpd:4,   bestCat:"Online shopping & contactless", localMpd:0.4, fxMpd:0.4,  fee:"S$194", feeWaive:true,  kfRatio:"2.5 TYP = 1 mile",        cap:"S$1,000/mth",                     partners:"11 programmes \u2013 widest in Singapore",   perk:"Same 4 mpd but transfers to 11 airlines vs UOB's 2",       tag:"4mpd"    },
-  { id:"dbs_wwmc",     name:"DBS Woman's World Mastercard",bank:"DBS",      mine:true,  bestMpd:4,   bestCat:"All online spend (any MCC)",    localMpd:0.4, fxMpd:1.2,  fee:"S$196", feeWaive:true,  kfRatio:"1 DBS Point = 2 miles",   cap:"S$1,000/mth",                     partners:"KrisFlyer, Asia Miles, Qantas",          perk:"Broadest online coverage \u2013 any merchant category counts", tag:"4mpd"    },
+  { id:"citi_prestige",name:"Citi Prestige",               bank:"Citibank", mine:true,  bestMpd:2,   bestCat:"FCY / overseas",                localMpd:1.3, fxMpd:2.0,  fee:"S$652", feeWaive:false, kfRatio:"2.5 TYP = 1 mile",        cap:"Uncapped",                        partners:"11 programmes - all 3 alliances + IHG", perk:"80,000 TYP (32,000 miles) on annual fee payment",          tag:"premium" },
+  { id:"citi_rewards", name:"Citi Rewards",                bank:"Citibank", mine:true,  bestMpd:4,   bestCat:"Online shopping & contactless", localMpd:0.4, fxMpd:0.4,  fee:"S$194", feeWaive:true,  kfRatio:"2.5 TYP = 1 mile",        cap:"S$1,000/mth",                     partners:"11 programmes - widest in Singapore",   perk:"Same 4 mpd but transfers to 11 airlines vs UOB's 2",       tag:"4mpd"    },
+  { id:"dbs_wwmc",     name:"DBS Woman's World Mastercard",bank:"DBS",      mine:true,  bestMpd:4,   bestCat:"All online spend (any MCC)",    localMpd:0.4, fxMpd:1.2,  fee:"S$196", feeWaive:true,  kfRatio:"1 DBS Point = 2 miles",   cap:"S$1,000/mth",                     partners:"KrisFlyer, Asia Miles, Qantas",          perk:"Broadest online coverage - any merchant category counts", tag:"4mpd"    },
   { id:"dbs_wplat",    name:"DBS Woman's Platinum",        bank:"DBS",      mine:true,  bestMpd:0.4, bestCat:"Base rate only",                localMpd:0.4, fxMpd:1.2,  fee:"S$30",  feeWaive:true,  kfRatio:"1 DBS Point = 2 miles",   cap:"Uncapped",                        partners:"KrisFlyer, Asia Miles, Qantas",          perk:"Keep to pool DBS Points with your Woman's World card",      tag:"base"    },
-  { id:"dbs_altitude", name:"DBS Altitude Visa",           bank:"DBS",      mine:false, bestMpd:6,   bestCat:"Airlines & hotels (Expedia)",  localMpd:1.3, fxMpd:2.2,  fee:"S$196", feeWaive:true,  kfRatio:"1 DBS Point = 2 miles",   cap:"Uncapped on local & overseas",    partners:"KrisFlyer, Asia Miles, Qantas",          perk:"DBS Points never expire \u2013 best for long-term accumulation", tag:"everyday"},
+  { id:"dbs_altitude", name:"DBS Altitude Visa",           bank:"DBS",      mine:false, bestMpd:6,   bestCat:"Airlines & hotels (Expedia)",  localMpd:1.3, fxMpd:2.2,  fee:"S$196", feeWaive:true,  kfRatio:"1 DBS Point = 2 miles",   cap:"Uncapped on local & overseas",    partners:"KrisFlyer, Asia Miles, Qantas",          perk:"DBS Points never expire - best for long-term accumulation", tag:"everyday"},
   { id:"uob_prvi",     name:"UOB PRVI Miles Visa",         bank:"UOB",      mine:false, bestMpd:3,   bestCat:"Regional (MY/TH/ID/VN)",       localMpd:1.4, fxMpd:2.4,  fee:"S$262", feeWaive:false, kfRatio:"1 UNI$ = 2 miles",        cap:"Uncapped",                        partners:"KrisFlyer, Asia Miles",                 perk:"Strong overseas rate; UNI$ pools with your Lady's & PPV",  tag:"overseas"},
   { id:"ocbc_voyage",  name:"OCBC Voyage",                 bank:"OCBC",     mine:false, bestMpd:2.3, bestCat:"FCY & overseas",               localMpd:1.6, fxMpd:2.3,  fee:"S$488", feeWaive:false, kfRatio:"1 VOYAGE = 1 KF mile",    cap:"Uncapped",                        partners:"KrisFlyer (no transfer fee)",            perk:"Highest local base rate in SG at 1.6 mpd; no transfer fee", tag:"local"   },
-  { id:"citi_premier", name:"Citi PremierMiles",           bank:"Citibank", mine:false, bestMpd:2.2, bestCat:"FCY spend",                    localMpd:1.2, fxMpd:2.2,  fee:"S$194", feeWaive:true,  kfRatio:"1 Citi Mile = 1 KF mile", cap:"Uncapped",                        partners:"11 programmes \u2013 same as Citi Prestige",  perk:"Citi Miles never expire; 10,000 bonus miles on annual fee", tag:"everyday"},
-  { id:"hsbc_travel",  name:"HSBC TravelOne",              bank:"HSBC",     mine:false, bestMpd:2.4, bestCat:"FCY spend",                    localMpd:1.2, fxMpd:2.4,  fee:"S$194", feeWaive:false, kfRatio:"2.5 HSBC Pts = 1 mile",   cap:"Uncapped",                        partners:"21 programmes \u2013 most in Singapore",     perk:"Only SG card with instant, fee-free KrisFlyer transfers",   tag:"overseas"},
-  { id:"kf_uob",       name:"KrisFlyer UOB",               bank:"UOB",      mine:false, bestMpd:3,   bestCat:"SIA Group (SQ/Scoot/KrisShop)",localMpd:1.2, fxMpd:1.2,  fee:"S$196", feeWaive:false, kfRatio:"Direct \u2013 no conversion", cap:"Uncapped on SIA Group",         partners:"KrisFlyer only",                         perk:"Miles auto-credited monthly \u2013 no transfer step, no fee", tag:"direct"  },
+  { id:"citi_premier", name:"Citi PremierMiles",           bank:"Citibank", mine:false, bestMpd:2.2, bestCat:"FCY spend",                    localMpd:1.2, fxMpd:2.2,  fee:"S$194", feeWaive:true,  kfRatio:"1 Citi Mile = 1 KF mile", cap:"Uncapped",                        partners:"11 programmes - same as Citi Prestige",  perk:"Citi Miles never expire; 10,000 bonus miles on annual fee", tag:"everyday"},
+  { id:"hsbc_travel",  name:"HSBC TravelOne",              bank:"HSBC",     mine:false, bestMpd:2.4, bestCat:"FCY spend",                    localMpd:1.2, fxMpd:2.4,  fee:"S$194", feeWaive:false, kfRatio:"2.5 HSBC Pts = 1 mile",   cap:"Uncapped",                        partners:"21 programmes - most in Singapore",     perk:"Only SG card with instant, fee-free KrisFlyer transfers",   tag:"overseas"},
+  { id:"kf_uob",       name:"KrisFlyer UOB",               bank:"UOB",      mine:false, bestMpd:3,   bestCat:"SIA Group (SQ/Scoot/KrisShop)",localMpd:1.2, fxMpd:1.2,  fee:"S$196", feeWaive:false, kfRatio:"Direct - no conversion", cap:"Uncapped on SIA Group",         partners:"KrisFlyer only",                         perk:"Miles auto-credited monthly - no transfer step, no fee", tag:"direct"  },
 ];
 
 const TAG_META = {
@@ -165,7 +165,7 @@ function CalculatorTab({ t }) {
           return (
             <div key={entry.id} style={{ marginBottom:26 }}>
               <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
-                <p style={{ ...lbl, marginBottom:0 }}>Card {entries.length>1?i+1:""} \u2013 points balance</p>
+                <p style={{ ...lbl, marginBottom:0 }}>Card {entries.length>1?i+1:""} - points balance</p>
                 {entries.length>1 && (
                   <button onClick={() => removeEntry(entry.id)} style={{ background:"none", border:"none", fontSize:13, color:t.textTer, cursor:"pointer", fontFamily:"inherit" }}>Remove</button>
                 )}
@@ -192,7 +192,7 @@ function CalculatorTab({ t }) {
                 }}
               />
               <div style={{ display:"flex", justifyContent:"space-between", marginTop:4, marginBottom:10 }}>
-                <span style={{ fontSize:12, color:t.ctMute }}>{bank.currency} \u00b7 {bank.note}</span>
+                <span style={{ fontSize:12, color:t.ctMute }}>{bank.currency} . {bank.note}</span>
                 <span style={{ fontSize:12, color:t.ctMute }}>Max {MAX/1000}k</span>
               </div>
 
@@ -229,7 +229,7 @@ function CalculatorTab({ t }) {
             {totalMiles.toLocaleString()}
           </p>
           <p style={{ fontSize:13, color:"rgba(0,0,0,0.45)", margin:"6px 0 0" }}>
-            {trip==="return"?"Return":"One-way"} \u00b7 {cabin.charAt(0).toUpperCase()+cabin.slice(1)}
+            {trip==="return"?"Return":"One-way"} . {cabin.charAt(0).toUpperCase()+cabin.slice(1)}
           </p>
         </div>
 
@@ -355,7 +355,7 @@ function ComparisonTab({ t }) {
         })}
       </div>
       <p style={{ fontSize:11, color:t.textMuted, marginTop:20, lineHeight:1.6 }}>
-        * Annual fee waiver available on request. Earn rates as of early 2026 \u2013 subject to change. Tap any card to expand.
+        * Annual fee waiver available on request. Earn rates as of early 2026 - subject to change. Tap any card to expand.
       </p>
     </div>
   );
