@@ -2,18 +2,18 @@ import { useState, useMemo } from "react";
 
 /* ─── Data ─────────────────────────────────────────────────── */
 const BANKS = [
-  { id:"uob_ladies",   name:"UOB Lady's",           currency:"UNI$",          ratio:2,   note:"1 UNI$ = 2 miles",  mine:true  },
-  { id:"uob_ppv",      name:"UOB Pref. Platinum",    currency:"UNI$",          ratio:2,   note:"1 UNI$ = 2 miles",  mine:true  },
-  { id:"citi_prestige",name:"Citi Prestige",         currency:"ThankYou Pts",  ratio:0.4, note:"2.5 pts = 1 mile",  mine:true  },
-  { id:"citi_rewards", name:"Citi Rewards",          currency:"ThankYou Pts",  ratio:0.4, note:"2.5 pts = 1 mile",  mine:true  },
-  { id:"dbs_wwmc",     name:"DBS Woman's World",     currency:"DBS Points",    ratio:2,   note:"1 pt = 2 miles",    mine:true  },
-  { id:"dbs_wplat",    name:"DBS Woman's Platinum",  currency:"DBS Points",    ratio:2,   note:"1 pt = 2 miles",    mine:true  },
-  { id:"dbs_altitude", name:"DBS Altitude",          currency:"DBS Points",    ratio:2,   note:"1 pt = 2 miles",    mine:false },
-  { id:"uob_prvi",     name:"UOB PRVI Miles",        currency:"UNI$",          ratio:2,   note:"1 UNI$ = 2 miles",  mine:false },
-  { id:"ocbc_voyage",  name:"OCBC Voyage",           currency:"VOYAGE Miles",  ratio:1,   note:"1:1 direct",        mine:false },
-  { id:"citi_premier", name:"Citi PremierMiles",     currency:"Citi Miles",    ratio:1,   note:"1:1 direct",        mine:false },
-  { id:"hsbc_travel",  name:"HSBC TravelOne",        currency:"HSBC Points",   ratio:0.4, note:"2.5 pts = 1 mile",  mine:false },
-  { id:"sc_journey",   name:"SC Journey",            currency:"360° Rewards",  ratio:0.5, note:"2 pts = 1 mile",    mine:false },
+  { id:"uob_ladies",   name:"UOB Lady's",           currency:"UNI$",          ratio:2,   note:"1 UNI$ = 2 miles"  },
+  { id:"uob_ppv",      name:"UOB Pref. Platinum",    currency:"UNI$",          ratio:2,   note:"1 UNI$ = 2 miles"  },
+  { id:"citi_prestige",name:"Citi Prestige",         currency:"ThankYou Pts",  ratio:0.4, note:"2.5 pts = 1 mile"  },
+  { id:"citi_rewards", name:"Citi Rewards",          currency:"ThankYou Pts",  ratio:0.4, note:"2.5 pts = 1 mile"  },
+  { id:"dbs_wwmc",     name:"DBS Woman's World",     currency:"DBS Points",    ratio:2,   note:"1 pt = 2 miles"    },
+  { id:"dbs_wplat",    name:"DBS Woman's Platinum",  currency:"DBS Points",    ratio:2,   note:"1 pt = 2 miles"    },
+  { id:"dbs_altitude", name:"DBS Altitude",          currency:"DBS Points",    ratio:2,   note:"1 pt = 2 miles"    },
+  { id:"uob_prvi",     name:"UOB PRVI Miles",        currency:"UNI$",          ratio:2,   note:"1 UNI$ = 2 miles"  },
+  { id:"ocbc_voyage",  name:"OCBC Voyage",           currency:"VOYAGE Miles",  ratio:1,   note:"1:1 direct"        },
+  { id:"citi_premier", name:"Citi PremierMiles",     currency:"Citi Miles",    ratio:1,   note:"1:1 direct"        },
+  { id:"hsbc_travel",  name:"HSBC TravelOne",        currency:"HSBC Points",   ratio:0.4, note:"2.5 pts = 1 mile"  },
+  { id:"sc_journey",   name:"SC Journey",            currency:"360° Rewards",  ratio:0.5, note:"2 pts = 1 mile"    },
 ];
 
 const DESTINATIONS = [
@@ -29,19 +29,21 @@ const DESTINATIONS = [
 ];
 
 const CARDS = [
-  { id:"uob_ladies",   name:"UOB Lady's Card",             bank:"UOB",      mine:true,  bestMpd:4,   bestCat:"2 chosen categories",          localMpd:0.4, fxMpd:0.4,  fee:"S$194", feeWaive:true,  kfRatio:"1 UNI$ = 2 miles",        cap:"S$1,000/mth per category",        partners:"KrisFlyer, Asia Miles",                 perk:"Pick any 2 bonus categories per quarter",                     tag:"4mpd"    },
-  { id:"uob_ppv",      name:"UOB Preferred Platinum Visa", bank:"UOB",      mine:true,  bestMpd:4,   bestCat:"Online & mobile contactless",   localMpd:0.4, fxMpd:0.4,  fee:"S$194", feeWaive:true,  kfRatio:"1 UNI$ = 2 miles",        cap:"S$600/mth mobile + S$600 online", partners:"KrisFlyer, Asia Miles",                 perk:"4 mpd just by tapping your phone to pay",                     tag:"4mpd"    },
-  { id:"citi_prestige",name:"Citi Prestige",               bank:"Citibank", mine:true,  bestMpd:2,   bestCat:"FCY / overseas",                localMpd:1.3, fxMpd:2.0,  fee:"S$652", feeWaive:false, kfRatio:"2.5 TYP = 1 mile",        cap:"Uncapped",                        partners:"11 programmes - all 3 alliances + IHG", perk:"80,000 TYP (32,000 miles) on annual fee payment",             tag:"premium" },
-  { id:"citi_rewards", name:"Citi Rewards",                bank:"Citibank", mine:true,  bestMpd:4,   bestCat:"Online shopping & contactless", localMpd:0.4, fxMpd:0.4,  fee:"S$194", feeWaive:true,  kfRatio:"2.5 TYP = 1 mile",        cap:"S$1,000/mth",                     partners:"11 programmes - widest in Singapore",   perk:"Same 4 mpd but transfers to 11 airlines vs UOB's 2",          tag:"4mpd"    },
-  { id:"dbs_wwmc",     name:"DBS Woman's World Mastercard",bank:"DBS",      mine:true,  bestMpd:4,   bestCat:"All online spend (any MCC)",    localMpd:0.4, fxMpd:1.2,  fee:"S$196", feeWaive:true,  kfRatio:"1 DBS Point = 2 miles",   cap:"S$1,000/mth",                     partners:"KrisFlyer, Asia Miles, Qantas",          perk:"Broadest online coverage - any merchant category counts",      tag:"4mpd"    },
-  { id:"dbs_wplat",    name:"DBS Woman's Platinum",        bank:"DBS",      mine:true,  bestMpd:0.4, bestCat:"Base rate only",                localMpd:0.4, fxMpd:1.2,  fee:"S$30",  feeWaive:true,  kfRatio:"1 DBS Point = 2 miles",   cap:"Uncapped",                        partners:"KrisFlyer, Asia Miles, Qantas",          perk:"Keep to pool DBS Points with your Woman's World card",         tag:"base"    },
-  { id:"dbs_altitude", name:"DBS Altitude Visa",           bank:"DBS",      mine:false, bestMpd:6,   bestCat:"Airlines & hotels (Expedia)",  localMpd:1.3, fxMpd:2.2,  fee:"S$196", feeWaive:true,  kfRatio:"1 DBS Point = 2 miles",   cap:"Uncapped on local & overseas",    partners:"KrisFlyer, Asia Miles, Qantas",          perk:"DBS Points never expire - best for long-term accumulation",    tag:"everyday"},
-  { id:"uob_prvi",     name:"UOB PRVI Miles Visa",         bank:"UOB",      mine:false, bestMpd:3,   bestCat:"Regional (MY/TH/ID/VN)",        localMpd:1.4, fxMpd:2.4,  fee:"S$262", feeWaive:false, kfRatio:"1 UNI$ = 2 miles",        cap:"Uncapped",                        partners:"KrisFlyer, Asia Miles",                 perk:"Strong overseas rate; UNI$ pools with your Lady's & PPV",     tag:"overseas"},
-  { id:"ocbc_voyage",  name:"OCBC Voyage",                 bank:"OCBC",     mine:false, bestMpd:2.3, bestCat:"FCY & overseas",                localMpd:1.6, fxMpd:2.3,  fee:"S$488", feeWaive:false, kfRatio:"1 VOYAGE = 1 KF mile",    cap:"Uncapped",                        partners:"KrisFlyer (no transfer fee)",            perk:"Highest local base rate in SG at 1.6 mpd; no transfer fee",   tag:"local"   },
-  { id:"citi_premier", name:"Citi PremierMiles",           bank:"Citibank", mine:false, bestMpd:2.2, bestCat:"FCY spend",                     localMpd:1.2, fxMpd:2.2,  fee:"S$194", feeWaive:true,  kfRatio:"1 Citi Mile = 1 KF mile", cap:"Uncapped",                        partners:"11 programmes - same as Citi Prestige",  perk:"Citi Miles never expire; 10,000 bonus miles on annual fee",   tag:"everyday"},
-  { id:"hsbc_travel",  name:"HSBC TravelOne",              bank:"HSBC",     mine:false, bestMpd:2.4, bestCat:"FCY spend",                     localMpd:1.2, fxMpd:2.4,  fee:"S$194", feeWaive:false, kfRatio:"2.5 HSBC Pts = 1 mile",   cap:"Uncapped",                        partners:"21 programmes - most in Singapore",      perk:"Only SG card with instant, fee-free KrisFlyer transfers",     tag:"overseas"},
-  { id:"kf_uob",       name:"KrisFlyer UOB",               bank:"UOB",      mine:false, bestMpd:3,   bestCat:"SIA Group (SQ/Scoot/KrisShop)",localMpd:1.2, fxMpd:1.2,  fee:"S$196", feeWaive:false, kfRatio:"Direct - no conversion",   cap:"Uncapped on SIA Group",           partners:"KrisFlyer only",                         perk:"Miles auto-credited monthly - no transfer step, no fee",      tag:"direct"  },
+  { id:"uob_ladies",   name:"UOB Lady's Card",             bank:"UOB",      defaultMine:true,  bestMpd:4,   bestCat:"2 chosen categories",          localMpd:0.4, fxMpd:0.4,  fee:"S$194", feeWaive:true,  kfRatio:"1 UNI$ = 2 miles",        cap:"S$1,000/mth per category",        partners:"KrisFlyer, Asia Miles",                 perk:"Pick any 2 bonus categories per quarter",                     tag:"4mpd"    },
+  { id:"uob_ppv",      name:"UOB Preferred Platinum Visa", bank:"UOB",      defaultMine:true,  bestMpd:4,   bestCat:"Online & mobile contactless",   localMpd:0.4, fxMpd:0.4,  fee:"S$194", feeWaive:true,  kfRatio:"1 UNI$ = 2 miles",        cap:"S$600/mth mobile + S$600 online", partners:"KrisFlyer, Asia Miles",                 perk:"4 mpd just by tapping your phone to pay",                     tag:"4mpd"    },
+  { id:"citi_prestige",name:"Citi Prestige",               bank:"Citibank", defaultMine:true,  bestMpd:2,   bestCat:"FCY / overseas",                localMpd:1.3, fxMpd:2.0,  fee:"S$652", feeWaive:false, kfRatio:"2.5 TYP = 1 mile",        cap:"Uncapped",                        partners:"11 programmes - all 3 alliances + IHG", perk:"80,000 TYP (32,000 miles) on annual fee payment",             tag:"premium" },
+  { id:"citi_rewards", name:"Citi Rewards",                bank:"Citibank", defaultMine:true,  bestMpd:4,   bestCat:"Online shopping & contactless", localMpd:0.4, fxMpd:0.4,  fee:"S$194", feeWaive:true,  kfRatio:"2.5 TYP = 1 mile",        cap:"S$1,000/mth",                     partners:"11 programmes - widest in Singapore",   perk:"Same 4 mpd but transfers to 11 airlines vs UOB's 2",          tag:"4mpd"    },
+  { id:"dbs_wwmc",     name:"DBS Woman's World Mastercard",bank:"DBS",      defaultMine:true,  bestMpd:4,   bestCat:"All online spend (any MCC)",    localMpd:0.4, fxMpd:1.2,  fee:"S$196", feeWaive:true,  kfRatio:"1 DBS Point = 2 miles",   cap:"S$1,000/mth",                     partners:"KrisFlyer, Asia Miles, Qantas",          perk:"Broadest online coverage - any merchant category counts",      tag:"4mpd"    },
+  { id:"dbs_wplat",    name:"DBS Woman's Platinum",        bank:"DBS",      defaultMine:true,  bestMpd:0.4, bestCat:"Base rate only",                localMpd:0.4, fxMpd:1.2,  fee:"S$30",  feeWaive:true,  kfRatio:"1 DBS Point = 2 miles",   cap:"Uncapped",                        partners:"KrisFlyer, Asia Miles, Qantas",          perk:"Keep to pool DBS Points with your Woman's World card",         tag:"base"    },
+  { id:"dbs_altitude", name:"DBS Altitude Visa",           bank:"DBS",      defaultMine:false, bestMpd:6,   bestCat:"Airlines & hotels (Expedia)",  localMpd:1.3, fxMpd:2.2,  fee:"S$196", feeWaive:true,  kfRatio:"1 DBS Point = 2 miles",   cap:"Uncapped on local & overseas",    partners:"KrisFlyer, Asia Miles, Qantas",          perk:"DBS Points never expire - best for long-term accumulation",    tag:"everyday"},
+  { id:"uob_prvi",     name:"UOB PRVI Miles Visa",         bank:"UOB",      defaultMine:false, bestMpd:3,   bestCat:"Regional (MY/TH/ID/VN)",        localMpd:1.4, fxMpd:2.4,  fee:"S$262", feeWaive:false, kfRatio:"1 UNI$ = 2 miles",        cap:"Uncapped",                        partners:"KrisFlyer, Asia Miles",                 perk:"Strong overseas rate; UNI$ pools with your Lady's & PPV",     tag:"overseas"},
+  { id:"ocbc_voyage",  name:"OCBC Voyage",                 bank:"OCBC",     defaultMine:false, bestMpd:2.3, bestCat:"FCY & overseas",                localMpd:1.6, fxMpd:2.3,  fee:"S$488", feeWaive:false, kfRatio:"1 VOYAGE = 1 KF mile",    cap:"Uncapped",                        partners:"KrisFlyer (no transfer fee)",            perk:"Highest local base rate in SG at 1.6 mpd; no transfer fee",   tag:"local"   },
+  { id:"citi_premier", name:"Citi PremierMiles",           bank:"Citibank", defaultMine:false, bestMpd:2.2, bestCat:"FCY spend",                     localMpd:1.2, fxMpd:2.2,  fee:"S$194", feeWaive:true,  kfRatio:"1 Citi Mile = 1 KF mile", cap:"Uncapped",                        partners:"11 programmes - same as Citi Prestige",  perk:"Citi Miles never expire; 10,000 bonus miles on annual fee",   tag:"everyday"},
+  { id:"hsbc_travel",  name:"HSBC TravelOne",              bank:"HSBC",     defaultMine:false, bestMpd:2.4, bestCat:"FCY spend",                     localMpd:1.2, fxMpd:2.4,  fee:"S$194", feeWaive:false, kfRatio:"2.5 HSBC Pts = 1 mile",   cap:"Uncapped",                        partners:"21 programmes - most in Singapore",      perk:"Only SG card with instant, fee-free KrisFlyer transfers",     tag:"overseas"},
+  { id:"kf_uob",       name:"KrisFlyer UOB",               bank:"UOB",      defaultMine:false, bestMpd:3,   bestCat:"SIA Group (SQ/Scoot/KrisShop)",localMpd:1.2, fxMpd:1.2,  fee:"S$196", feeWaive:false, kfRatio:"Direct - no conversion",   cap:"Uncapped on SIA Group",           partners:"KrisFlyer only",                         perk:"Miles auto-credited monthly - no transfer step, no fee",      tag:"direct"  },
 ];
+
+const DEFAULT_MY_CARDS = new Set(CARDS.filter(c => c.defaultMine).map(c => c.id));
 
 const TAG_META = {
   "4mpd":    { label:"4 mpd",        lc:"#0a5a28", dc:"#a3e635" },
@@ -73,22 +75,17 @@ function mkT(dark) {
     selectBg:         dark ? "#2a2a2a"           : "#eceae8",
     inputBg:          "transparent",
     summaryBg:        dark ? "#2a2a2a"           : "#eceae8",
-    // hero card
     heroBg:           dark ? "#fdfa72"           : "#fdfa72",
     heroText:         "#111111",
-    // accent / check marks
     green:            dark ? "#111111"           : "#111111",
     greenFaint:       dark ? "rgba(253,250,114,0.1)" : "#fefee8",
-    // my-card highlight
-    myCardBg:         "#ffffff",
-    myCardBorder:     dark ? "1px solid #4a4a20" : "1px solid #ede800",
-    myCardBadgeBg:    dark ? "#3a3a18"           : "#fefccc",
-    myCardBadgeColor: dark ? "#fdfa72"           : "#7a7000",
-    // toggle button
+    myCardBg:         "#fdfa72",
+    myCardBorder:     dark ? "1px solid #c8c500" : "1px solid #e8d800",
+    myCardBadgeBg:    dark ? "#c8c500"           : "#111111",
+    myCardBadgeColor: dark ? "#111111"           : "#fdfa72",
     toggleBg:         dark ? "#FFDE21"           : "#FFDE21",
     toggleColor:      "#111111",
     cardShadow:       dark ? "0 2px 20px rgba(0,0,0,0.5)" : "0 2px 16px rgba(0,0,0,0.06)",
-    // card text - always dark since cards are always white
     ct:     "#111111",
     ctSec:  "#777777",
     ctTer:  "#aaaaaa",
@@ -100,7 +97,7 @@ function mkT(dark) {
 /* ─── Shared ────────────────────────────────────────────────── */
 function SegControl({ options, value, onChange, t }) {
   return (
-    <div style={{ display:"flex", background:t.segBg, borderRadius:999, padding:3, gap:2 }}>
+    <div style={{ display:"flex", background:t.segBg, borderRadius:999, padding:3, gap:2, flexWrap:"wrap" }}>
       {options.map(([k,v]) => (
         <button key={k} onClick={() => onChange(k)} style={{
           flex:1, padding:"8px 16px", borderRadius:999, border:"none", cursor:"pointer",
@@ -128,9 +125,30 @@ function Card({ children, t, style={}, mine=false }) {
   );
 }
 
+/* ─── Star / bookmark toggle ────────────────────────────────── */
+function StarButton({ active, onClick, t }) {
+  return (
+    <button
+      onClick={e => { e.stopPropagation(); onClick(); }}
+      title={active ? "Remove from My Cards" : "Add to My Cards"}
+      style={{
+        background: "none", border: "none", cursor: "pointer",
+        padding: "4px 6px", borderRadius: 8, flexShrink: 0,
+        fontSize: 18, lineHeight: 1,
+        color: active ? "#e8b800" : (t.dark ? "#444" : "#ccc"),
+        transition: "color 0.15s, transform 0.12s",
+      }}
+      onMouseEnter={e => e.currentTarget.style.transform = "scale(1.2)"}
+      onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
+    >
+      {active ? "★" : "☆"}
+    </button>
+  );
+}
+
 /* ─── Calculator Tab ────────────────────────────────────────── */
-function CalculatorTab({ t }) {
-  const [entries, setEntries] = useState([{ id:1, bankId:"uob_ladies", points:0 }]);
+function CalculatorTab({ t, myCardIds }) {
+  const [entries, setEntries] = useState([{ id:1, bankId: [...myCardIds][0] || "uob_ladies", points:0 }]);
   const [cabin, setCabin]     = useState("economy");
   const [trip, setTrip]       = useState("oneway");
   const mul = trip === "return" ? 2 : 1;
@@ -151,6 +169,9 @@ function CalculatorTab({ t }) {
   const CABINS      = [["economy","Economy"],["business","Business"],["first","First"]];
   const MAX         = 500000;
   const lbl         = { fontSize:13, color:t.textSec, marginBottom:10, letterSpacing:"0.02em" };
+
+  const myBanks    = BANKS.filter(b => myCardIds.has(b.id));
+  const otherBanks = BANKS.filter(b => !myCardIds.has(b.id));
 
   return (
     <div className="ml-calc-grid">
@@ -183,8 +204,16 @@ function CalculatorTab({ t }) {
                 padding:"10px 12px", fontSize:14, fontFamily:"inherit", color:t.text,
                 marginBottom:16, cursor:"pointer", outline:"none",
               }}>
-                <optgroup label="My Cards">{BANKS.filter(b=>b.mine).map(b=><option key={b.id} value={b.id}>{b.name}</option>)}</optgroup>
-                <optgroup label="Other Cards">{BANKS.filter(b=>!b.mine).map(b=><option key={b.id} value={b.id}>{b.name}</option>)}</optgroup>
+                {myBanks.length > 0 && (
+                  <optgroup label="★ My Cards">
+                    {myBanks.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
+                  </optgroup>
+                )}
+                {otherBanks.length > 0 && (
+                  <optgroup label="Other Cards">
+                    {otherBanks.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
+                  </optgroup>
+                )}
               </select>
 
               <input type="number" min={0} max={MAX} step={1000}
@@ -232,7 +261,6 @@ function CalculatorTab({ t }) {
       {/* ── RIGHT: totals + destinations ─────────── */}
       <div className="ml-right-col" style={{ display:"flex", flexDirection:"column", gap:12 }}>
 
-        {/* Yellow hero total card */}
         <div style={{ background:t.heroBg, borderRadius:24, padding:"26px", boxShadow:t.cardShadow }}>
           <p style={{ fontSize:13, color:"rgba(0,0,0,0.5)", margin:"0 0 6px" }}>Your KrisFlyer miles</p>
           <p style={{ fontSize:56, fontWeight:700, color:t.heroText, margin:"0 0 4px", letterSpacing:"-0.03em", lineHeight:1 }} className="ml-hero-miles">
@@ -243,7 +271,6 @@ function CalculatorTab({ t }) {
           </p>
         </div>
 
-        {/* Next unlock nudge */}
         {nextTarget && totalMiles > 0 && (
           <Card t={t} style={{ padding:"16px 20px" }}>
             <p style={{ fontSize:12, color:t.textTer, margin:"0 0 4px" }}>Next unlock</p>
@@ -254,7 +281,6 @@ function CalculatorTab({ t }) {
           </Card>
         )}
 
-        {/* Destination list */}
         <Card t={t} style={{ padding:"20px 24px" }}>
           {dests.map((dest, idx) => {
             const needed = dest[cabin]*mul;
@@ -290,15 +316,20 @@ function CalculatorTab({ t }) {
 }
 
 /* ─── Card Comparison Tab ───────────────────────────────────── */
-function ComparisonTab({ t }) {
+function ComparisonTab({ t, myCardIds, toggleMyCard }) {
   const [filter, setFilter]     = useState("all");
   const [expanded, setExpanded] = useState(null);
 
-  const FILTERS = [["all","All"],["mine","My cards"],["4mpd","4 mpd"],["overseas","Overseas"],["everyday","Everyday"]];
+  const myCount = myCardIds.size;
+  const FILTERS = [
+    ["all","All"],
+    ["mine", myCount > 0 ? `My Cards (${myCount})` : "My Cards"],
+    ["overseas","Overseas"],
+    ["everyday","Everyday"],
+  ];
 
   const filtered = CARDS.filter(c => {
-    if (filter==="mine")     return c.mine;
-    if (filter==="4mpd")     return c.bestMpd >= 4;
+    if (filter==="mine")     return myCardIds.has(c.id);
     if (filter==="overseas") return c.fxMpd >= 2.2;
     if (filter==="everyday") return c.localMpd >= 1.3;
     return true;
@@ -306,29 +337,53 @@ function ComparisonTab({ t }) {
 
   return (
     <div>
+      {/* Tip banner */}
+      <div style={{
+        display:"flex", alignItems:"center", gap:10, marginBottom:16,
+        padding:"10px 14px", borderRadius:12,
+        background: t.dark ? "#2a2a1a" : "#fefccc",
+        border: t.dark ? "1px solid #4a4a20" : "1px solid #ede800",
+      }}>
+        <span style={{ fontSize:16 }}>★</span>
+        <p style={{ fontSize:13, color: t.dark ? "#fdfa72" : "#7a7000", margin:0 }}>
+          Star any card to add it to <strong>My Cards</strong> — your selection is remembered this session and groups them first in the calculator.
+        </p>
+      </div>
+
       <div style={{ marginBottom:20 }}>
         <SegControl options={FILTERS} value={filter} onChange={setFilter} t={t} />
       </div>
 
+      {filter === "mine" && myCount === 0 && (
+        <div style={{ textAlign:"center", padding:"40px 20px", color:t.textSec }}>
+          <p style={{ fontSize:32, margin:"0 0 12px" }}>☆</p>
+          <p style={{ fontSize:15, fontWeight:500, margin:"0 0 6px", color:t.text }}>No cards selected yet</p>
+          <p style={{ fontSize:13 }}>Tap the ★ on any card to add it to your wallet.</p>
+        </div>
+      )}
+
       <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
         {filtered.map(card => {
-          const isExp = expanded === card.id;
-          const tag   = TAG_META[card.tag];
+          const isExp  = expanded === card.id;
+          const isMine = myCardIds.has(card.id);
+          const tag    = TAG_META[card.tag];
           const tagColor = t.dark ? tag.dc : tag.lc;
           return (
-            <div key={card.id} onClick={() => setExpanded(isExp?null:card.id)}
+            <div key={card.id}
+              onClick={() => setExpanded(isExp?null:card.id)}
               style={{
-                background: card.mine ? t.myCardBg : t.cardBg,
+                background: isMine ? t.myCardBg : t.cardBg,
                 borderRadius: 20, padding:"18px 22px", cursor:"pointer",
                 boxShadow: t.cardShadow,
-                border: card.mine ? t.myCardBorder : t.cardBorder,
+                border: isMine ? t.myCardBorder : t.cardBorder,
+                transition:"border 0.2s",
               }}>
 
               <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
                 <div style={{ flex:1, minWidth:0 }}>
                   <div style={{ display:"flex", alignItems:"center", gap:8, flexWrap:"wrap", marginBottom:6 }}>
                     <span style={{ fontSize:15, fontWeight:500, color:t.ct }}>{card.name}</span>
-                    {card.mine && (
+                    {isMine && (
                       <span style={{ fontSize:11, padding:"2px 9px", borderRadius:999, background:t.myCardBadgeBg, color:t.myCardBadgeColor, fontWeight:500 }}>My card</span>
                     )}
                     <span style={{ fontSize:11, padding:"2px 9px", borderRadius:999, background:t.dark?"rgba(255,255,255,0.07)":t.summaryBg, color:tagColor, fontWeight:500 }}>{tag.label}</span>
@@ -336,10 +391,13 @@ function ComparisonTab({ t }) {
                   <p style={{ fontSize:13, color:t.ctSec, margin:0, lineHeight:1.5 }}>{card.perk}</p>
                 </div>
 
-                <div style={{ textAlign:"right", flexShrink:0, paddingLeft:16 }}>
-                  <span style={{ fontSize:32, fontWeight:700, color:t.ct, letterSpacing:"-0.02em", lineHeight:1 }}>{card.bestMpd}</span>
-                  <span style={{ fontSize:14, color:t.ctSec, marginLeft:2 }}>mpd</span>
-                  <p style={{ fontSize:11, color:t.ctTer, margin:"3px 0 0", maxWidth:110, lineHeight:1.4 }}>{card.bestCat}</p>
+                <div style={{ display:"flex", alignItems:"flex-start", gap:4, paddingLeft:16, flexShrink:0 }}>
+                  <div style={{ textAlign:"right" }}>
+                    <span style={{ fontSize:32, fontWeight:700, color:t.ct, letterSpacing:"-0.02em", lineHeight:1 }}>{card.bestMpd}</span>
+                    <span style={{ fontSize:14, color:t.ctSec, marginLeft:2 }}>mpd</span>
+                    <p style={{ fontSize:11, color:t.ctTer, margin:"3px 0 0", maxWidth:110, lineHeight:1.4 }}>{card.bestCat}</p>
+                  </div>
+                  <StarButton active={isMine} onClick={() => toggleMyCard(card.id)} t={t} />
                 </div>
               </div>
 
@@ -396,8 +454,18 @@ function DarkToggle({ dark, onToggle }) {
 
 /* ─── App Shell ─────────────────────────────────────────────── */
 export default function App() {
-  const [tab,  setTab]  = useState("calculator");
-  const [dark, setDark] = useState(false);
+  const [tab,       setTab]       = useState("calculator");
+  const [dark,      setDark]      = useState(false);
+  const [myCardIds, setMyCardIds] = useState(DEFAULT_MY_CARDS);
+
+  const toggleMyCard = (id) => {
+    setMyCardIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
   const t = mkT(dark);
 
   return (
@@ -410,13 +478,9 @@ export default function App() {
         .ml-slider::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:20px; height:20px; border-radius:50%; background:#FFDE21; cursor:pointer; box-shadow:0 1px 6px rgba(0,0,0,0.25); margin-top:-8px; border:2.5px solid #fff; }
         .ml-slider::-moz-range-track { background:#FFDE21; border-radius:2px; height:4px; }
         .ml-slider::-moz-range-thumb { width:16px; height:16px; border-radius:50%; background:#FFDE21; cursor:pointer; border:2.5px solid #fff; box-shadow:0 1px 6px rgba(0,0,0,0.25); }
-        /* layout */
         *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
         html, body, #root { width:100%; min-height:100vh; margin:0; padding:0; overflow-x:hidden; }
         .ml-calc-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; }
-        .ml-seg-filters { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:20px; }
-        /* mobile */
-        /* responsive typography */
         @media (max-width:680px) {
           .ml-hero-miles { font-size:44px !important; }
           .ml-input-big { font-size:40px !important; }
@@ -438,7 +502,14 @@ export default function App() {
               </div>
               <p style={{ fontSize:14, color:t.textSec, margin:0 }}>Your KrisFlyer miles, organised.</p>
             </div>
-            <DarkToggle dark={dark} onToggle={() => setDark(d => !d)} />
+            <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+              {myCardIds.size > 0 && (
+                <span style={{ fontSize:12, color:t.textSec }}>
+                  ★ {myCardIds.size} card{myCardIds.size !== 1 ? "s" : ""} selected
+                </span>
+              )}
+              <DarkToggle dark={dark} onToggle={() => setDark(d => !d)} />
+            </div>
           </div>
 
           {/* Tabs */}
@@ -454,7 +525,10 @@ export default function App() {
             ))}
           </div>
 
-          {tab === "calculator" ? <CalculatorTab t={t} /> : <ComparisonTab t={t} />}
+          {tab === "calculator"
+            ? <CalculatorTab t={t} myCardIds={myCardIds} />
+            : <ComparisonTab t={t} myCardIds={myCardIds} toggleMyCard={toggleMyCard} />
+          }
         </div>
       </div>
     </>
